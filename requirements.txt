@@ -1,6 +1,0 @@
-flask
-numpy
-pandas
-scikit-learn
-gunicorn
-pickle-mixin  # If you're using pickle

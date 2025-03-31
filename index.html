@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediAI - AI Medical Assistant</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .dark {
+      background-color: #1f2937;
+      color: white;
+    }
+    .dark .bg-gray-800 {
+      background-color: #2d3748;
+    }
+    .dark .bg-blue-600 {
+      background-color: #8ecae6;
+    }
+    .dark .text-gray-300 {
+      color: #e2e8f0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #e0f2fe, #ffffff);
+      margin: 0;
+      padding: 0;
+    }
+
+    .header-logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #219ebc;
+    }
+
+    .header-links a {
+      margin: 0 15px;
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .header-links a:hover {
+      color: #219ebc;
+    }
+
+    .hero-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-text {
+      max-width: 50%;
+    }
+
+    .hero-text h1 {
+      font-size: 40px;
+      color: #219ebc;
+    }
+
+    .hero-text p {
+      color: #4b5563;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    
+
+    .body-button {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .button {
+      cursor: pointer;
+      padding: 12px 20px;
+      border-radius: 9999px;
+      width: 115px;
+      background-color: #219ebc;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .button.dark {
+      background-color: white;
+      color: #219ebc;
+    }
+
+    .button:hover {
+      background-color: #219ebc;
+    }
+
+    .button .icon-container {
+      display: flex;
+      transition: transform 0.3s ease;
+    }
+
+    .button:hover .icon-container {
+      transform: translateX(8px);
+    }
+
+    /* Icon styles */
+    .icon-container svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .features-section {
+      padding: 60px 20px;
+      background-color: #f9fafb;
+      text-align: center;
+    }
+
+    .features-section h2 {
+      font-size: 32px;
+      color: #1e3a8a;
+      margin-bottom: 20px;
+    }
+
+    .feature-box {
+      display: inline-block;
+      width: 30%;
+      margin: 20px;
+      padding: 40px;
+      background-color: #ffffff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      
+    }
+
+    .feature-box h3 {
+      color: #1e3a8a;
+      margin-bottom: 15px;
+    }
+
+    .feature-icon {
+  width: 2rem; /* Adjust the size */
+  height: auto;
+}
+
+    .how-it-works,
+    .testimonials,
+    .cta {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .how-it-works h2,
+    .testimonials h2,
+    .cta h2 {
+      font-size: 32px;
+      color: #080808;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .step {
+  position: relative;
+  display: inline-block;
+  width: 30%;
+  padding: 30px;
+  margin: 20px;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.step-circle {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1e40af;
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+    .testimonial-box {
+      display: flex;
+  flex-direction: column; /* Stack avatar and name vertically */
+  align-items: center; /* Center align content */
+  background-color: #f1f5f9;
+  
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  width: 250px;
+    }
+    .testimonial-container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .testimonial-box h4 {
+      font-size: 18px;
+      color: #219ebc;
+      margin-bottom: 15px;
+    }
+    .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #219ebc;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+    footer {
+      padding: 40px;
+      background-color: #1e3a8a;
+      color: white;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
+
+  <!-- Header -->
+  <header class="container mx-auto py-6 px-4 md:px-6 lg:px-8">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <span class="text-2xl font-bold text-gray-900 dark:text-white">MediAI</span>
+      </div>
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="#features" 
+        class="text-gray-600 dark:text-gray-300 font-medium" 
+        style="transition: color 0.3s ease;"
+        onmouseover="this.style.color='#219ebc';" 
+        onmouseout="this.style.color='';">
+       Features
+     </a>
+             <a href="#how-it-works" 
+             class="text-gray-600 dark:text-gray-300 font-medium" 
+             style="transition: color 0.3s ease;"
+             onmouseover="this.style.color='#219ebc';" 
+             onmouseout="this.style.color='';">
+            How it works
+          </a>
+          <a href="#testimonials" 
+   class="text-gray-600 dark:text-gray-300 font-medium" 
+   style="transition: color 0.3s ease;"
+   onmouseover="this.style.color='#219ebc';" 
+   onmouseout="this.style.color='';">
+  Testimonials
+</a>
+
+    
+
+        <a href="{{ url_for('chat_page') }}">
+    <button>Start Now</button>
+</a>
+
+
+      </a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="container mx-auto py-16 px-4 md:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row items-center gap-12">
+      <div class="lg:w-1/2 space-y-6">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight">
+          AI-Driven <span style="color: #00b4d8;">Health Companion </span>at Your Fingertips
+        </h1>
+        <p class="text-xl text-gray-600 dark:text-gray-300">
+            Receive real-time information about your symptoms and possible health concerns with our cutting-edge AI assistant. Reliable, efficient, and accessible whenever you need it.        </p>
+        <div class="flex flex-col sm:flex-row gap-4 pt-4">
+          <a href="chatpage.html">
+            <div class="button-container">
+              <a href="{{ url_for('chat_page') }}">
+    <button>Try it</button>
+</a>
+
+                <div class="icon-container">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  </svg>
+                </div>
+              </button>
+            </div>
+          
+          </a>
+          <a href="#how-it-works">
+            <button 
+            style="color: #219ebc; border: 2px solid #219ebc; padding: 0.5rem 1.5rem; border-radius: 0.5rem; background-color: transparent; transition: all 0.3s ease;"
+            onmouseover="this.style.backgroundColor='#219ebc'; this.style.color='white';"
+            onmouseout="this.style.backgroundColor='transparent'; this.style.color='#219ebc';">
+            Learn More
+          </button>
+                    </a>
+        </div>
+      </div>
+      <div class="lg:w-1/2 relative">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border border-gray-200 dark:border-gray-700 max-w-md mx-auto">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="h-3 w-3 bg-red-500 rounded-full"></div>
+            <div class="h-3 w-3 bg-yellow-500 rounded-full"></div>
+            <div class="h-3 w-3 bg-green-500 rounded-full"></div>
+          </div>
+          <div class="space-y-4">
+            <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg max-w-xs">
+              <p class="text-gray-700 dark:text-gray-300">Hello! I’m your health assistant. How can I assist you today?</p>
+            </div>
+            <div class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg max-w-xs ml-auto">
+              <p class="text-gray-700 dark:text-gray-300">I’ve been feeling really tired and have a cough for the past few days.</p>
+            </div>
+            <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg max-w-xs">
+              <p class="text-gray-700 dark:text-gray-300">Got it. Can you let me know if you’re also experiencing a sore throat, shortness of breath, or chills?</p>
+            </div>
+            <div class="flex items-center">
+              <div class="bg-gray-200 dark:bg-gray-600 h-10 w-full rounded-lg flex items-center px-4">
+                <span class="text-gray-500 dark:text-gray-400">Type your symptoms...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-blue-400/30 dark:bg-blue-600/20 rounded-full blur-3xl"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="container mx-auto py-16 px-4 md:px-6 lg:px-8 bg-white dark:bg-gray-800 rounded-3xl shadow-sm">
+    <div class="text-center mb-12">
+      
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Why Choose MediAI?</h2>
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+        Our AI-powered platform offers a range of features designed to provide you with accurate medical insights.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl border border-gray-200 dark:border-gray-600">
+        <div class=" rounded-lg w-fit mb-4">
+          <i class="fas fa-brain text-4xl " style="color: #219ebc;"></i>
+
+        </div>
+        
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2 ">AI-Powered Analysis</h3>
+        <p class="text-gray-600 dark:text-gray-300">Our advanced algorithms analyze your symptoms and compare them with thousands of medical conditions.</p>
+      </div>
+
+      <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl border border-gray-200 dark:border-gray-600">
+        <div class=" rounded-lg w-fit mb-4">
+          <i class="fas fa-comment text-4xl " style="color: #219ebc;"></i>
+
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Conversational Interface</h3>
+        <p class="text-gray-600 dark:text-gray-300">Interact naturally with our chatbot, which guides you through a thorough symptom assessment.</p>
+      </div>
+
+      <div class="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl border border-gray-200 dark:border-gray-600">
+        <div class=" rounded-lg w-fit mb-4">
+          <i class="fas fa-lock text-4xl  " style="color: #219ebc;"></i>
+
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Privacy Focused</h3>
+        <p class="text-gray-600 dark:text-gray-300">Your health data is encrypted and secure. We never share your information with third parties.</p>
+      </div>
+    </div>
+  </section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="how-it-works">
+  <h2>How It Works</h2>
+  <div class="step relative">
+    <div class="step-circle absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2">
+      <div class="text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl font-semibold" style="background-color: #219ebc;">1</div>
+    </div>
+    <h3>Describe Your Symptoms</h3>
+    <p>Tell our chatbot what you're experiencing in your own words.</p>
+  </div>
+  <div class="step relative">
+    <div class="step-circle absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2">
+      <div class="text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl font-semibold" style="background-color: #219ebc;">2</div>
+    </div>
+    <h3>Answer Follow-up Questions</h3>
+    <p>Our AI will ask relevant questions to better understand your condition.</p>
+  </div>
+  <div class="step relative">
+    <div class="step-circle absolute left-0 top-0 transform -translate-x-1/2 -translate-y-1/2">
+      <div class="text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl font-semibold" style="background-color: #219ebc;">3</div>
+    </div>
+    <h3>Get Insights</h3>
+    <p>Receive potential conditions, confidence levels, and recommended next steps.</p>
+  </div>
+</section>
+
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonials">
+    <div class="testimonial-container">
+      
+    <h2>What Our Users Say</h2>
+      <div class="flex justify-center gap-6 flex-wrap md:flex-nowrap">
+
+    <div class="testimonial-box">
+      <div class="avatar">S</div>
+
+      <h4>Sarah Johnson</h4>
+      
+      <p>"As a healthcare professional, I'm impressed with the accuracy of MediPredict. It's a great tool for initial assessments."</p>
+    </div>
+    <div class="testimonial-box">
+      <div class="avatar">M</div>
+
+      <h4>Michael Chen</h4>
+      <p>"The interface is intuitive and the responses are quick. It helped me understand my symptoms before visiting my doctor."</p>
+    </div>
+    <div class="testimonial-box">
+      <div class="avatar">E</div>
+
+      <h4>Emily Rodriguez</h4>
+      <p>"MediAI has been a lifesaver for my family. It helps us decide when we need to see a doctor and when home care is sufficient."</p>
+    </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- Ready to Get Started -->
+  <section class="container mx-auto py-16 px-4 md:px-6 lg:px-8 text-center" style="background-color: #219ebc; color: white; border-radius: 1rem; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <h2 class="text-3xl font-bold">Ready to Get Started?</h2>
+    <p class="text-lg mt-4">Join thousands of users who trust MediPredict for AI-powered medical insights.</p>
+
+    <a href="{{ url_for('chat_page') }}">
+    <button class="mt-6 inline-block bg-white text-blue-600 py-2 px-6 rounded-lg hover:bg-gray-200">
+        Start Now
+    </button>
+</a>
+
+
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-12 mt-12">
+    <div class="container mx-auto px-4 md:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="flex items-center space-x-2 mb-6 md:mb-0">
+          <span class="text-xl font-bold text-gray-900 dark:text-white">MediAI</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
+          <a href="#" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">Privacy Policy</a>
+          <a href="#" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">Terms of Service</a>
+          <a href="#" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">Contact Us</a>
+          <a href="#" class="text-gray-600 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400">About</a>
+        </div>
+      </div>
+      <div class="text-center text-gray-500 dark:text-gray-400 text-sm mt-8">
+        <p>© 2025 MediAI. All rights reserved.</p>
+        <p class="mt-2">This application is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  </script>
+</body>
+</html>

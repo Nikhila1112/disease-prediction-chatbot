@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Medical Chatbot</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .hero {
+            position: relative;
+            background-image: linear-gradient(60deg, #96deda 0%, #50c9c3 100%);
+            padding: 80px 0;
+            border-radius: 10px;
+            height: 95vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .hero h1 {
+            position: relative;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .chat-container {
+            display: block;
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .chat-box {
+            border: 1px solid #ccc;
+            height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bot-message,
+        .user-message {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .bot-message {
+            background: #e3f2fd;
+            align-self: flex-start;
+        }
+
+        .user-message {
+            background: #d4edda;
+            align-self: flex-end;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: #219ebc;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin-left: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .chat-input button:hover {
+            background: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Styles */
+        header {
+            width: 100%;
+            height: 80px;
+            background-color: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 16px;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            background-color: #219ebc;
+            color: white;
+            padding: 8px;
+            border-radius: 8px;
+            margin-right: 12px;
+        }
+
+        .logo-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #1f2937;
+            font-weight: bold;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .action-button {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            background-color: red;
+            border-radius: 50%;
+        }
+
+        .avatar-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e0e0e0;
+            cursor: pointer;
+        }
+
+        .avatar-letter {
+            font-size: 16px;
+            color: #1e40af;
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            min-width: 200px;
+            display: none;
+            flex-direction: column;
+            padding: 8px 0;
+            z-index: 10;
+        }
+
+        .dropdown-menu.open {
+            display: flex;
+        }
+
+        .dropdown-menu-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .dropdown-menu-item:hover {
+            background-color: #f1f5f9;
+        }
+
+        .dropdown-separator {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 4px 0;
+        }
+
+        .profile-icon {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-logo">
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                </svg>
+            </div>
+            <h1>MediAI</h1>
+        </div>
+
+        <div class="header-actions">
+            <button class="action-button" id="notificationsButton">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+                    <path d="M18 8c0 3-2 5-5 5s-5-2-5-5V5h10v3zM5 15h14v2H5v-2z" />
+                </svg>
+                <span class="notification-dot"></span>
+            </button>
+
+            <div class="avatar-button" id="avatarButton" >
+                <span class="avatar-letter">JB</span>
+            </div>
+
+            <div class="dropdown-menu" id="dropdownMenu" >
+                <div class="dropdown-menu-item" id="profileItem">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                        <path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zM4 20c0-1.66 3.58-3 8-3s8 1.34 8 3H4z" />
+                    </svg>
+                    <span>Profile</span>
+                </div>
+                <div class="dropdown-menu-item">Medical History</div>
+                <div class="dropdown-menu-item">Settings</div>
+                <div class="dropdown-separator"></div>
+                <div class="dropdown-menu-item">Log out</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Chatbot Section -->
+    <div class="container chat-container" id="chatbotPage">
+        <div class="chat-header">
+            <h2>Medical Assistant</h2>
+            <p>Describe your symptoms, and our AI will predict possible diseases.</p>
+        </div>
+        <div class="chat-box" id="chat-box">
+            <div class="bot-message">Hello! Tell me your symptoms, and I'll help you.</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Enter your symptoms..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        let chatHistory = [];
+
+        function sendMessage() {
+            let userInput = document.getElementById("user-input").value.trim();
+            if (userInput === "") return;
+
+            addMessage(userInput, "user-message");
+            chatHistory.push(userInput);
+
+            setTimeout(() => {
+                let analyzingMessage = addMessage("Analyzing symptoms...", "bot-message");
+
+                setTimeout(() => {
+                    fetchDiseasePrediction(userInput, analyzingMessage);
+                }, 2000);
+            }, 500);
+
+            document.getElementById("user-input").value = "";
+        }
+
+        function addMessage(text, className) {
+            let chatBox = document.getElementById("chat-box");
+            let messageDiv = document.createElement("div");
+            messageDiv.className = className;
+            messageDiv.textContent = text;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return messageDiv;
+        }
+
+        function fetchDiseasePrediction(symptoms, analyzingMessage) {
+            let diseasePredictions = {
+                "fever,cough": "Flu.",
+        "fever,headache": "You may have dengue or viral fever. Seek medical attention.",
+        "chest pain,shortness of breath": "Possible heart condition. Visit a doctor immediately!",
+        "stomach pain,vomiting": "Could be food poisoning or gastritis.",
+        "sore throat,cough": "Might be a throat infection or flu.",
+        "joint pain,fatigue": "Possible arthritis or viral infection.",
+        "high fever,body pain,rash": "Possible dengue fever.",
+        "weight loss,fatigue,nights sweats": "Possible tuberculosis (TB).",
+        "persistent cough,blood in sputum,night sweats": "Possible tuberculosis (TB).",
+        "severe headache,stiff neck,fever": "Possible meningitis. Seek immediate medical help.",
+        "abdominal pain,diarrhea,weight loss": "Possible Crohn's disease or irritable bowel syndrome (IBS).",
+        "dizziness,blurred vision,frequent urination": "Possible diabetes.",
+        "high blood pressure,headache,nosebleed": "Possible hypertension.",
+        "extreme fatigue,pale skin,shortness of breath": "Possible anemia.",
+        "frequent urination,excessive thirst,unexplained weight loss": "Possible diabetes.",
+        "difficulty swallowing,hoarseness,weight loss": "Possible throat cancer.",
+        "skin rash,joint pain,muscle aches": "Possible lupus.",
+        "sharp chest pain,pain while breathing,cough": "Possible pneumonia.",
+        "yellow skin,abdominal pain,nausea": "Possible hepatitis or liver disease.",
+        "chronic back pain,numbness in legs": "Possible herniated disc or sciatica.",
+        "burning sensation in chest,acid reflux": "Possible gastroesophageal reflux disease (GERD).",
+        "numbness in hands and feet,tingling sensation": "Possible neuropathy or multiple sclerosis.",
+        "shortness of breath,wheezing,coughing": "Possible asthma.",
+        "unusual bleeding,unexplained weight loss,persistent lumps": "Possible cancer symptoms. Seek immediate medical attention.",
+        "frequent infections,bruising easily,persistent fever": "Possible leukemia.",
+        "chronic fatigue,depression,muscle pain": "Possible fibromyalgia.",
+        "headache,blurred vision,nausea": "Possible migraine.",
+        "leg swelling,shortness of breath,chest pain": "Possible deep vein thrombosis (DVT).",
+        "irregular heartbeat,dizziness,shortness of breath": "Possible arrhythmia.",
+        "hair loss,fatigue,weight gain": "Possible hypothyroidism.",
+        "excessive sweating,weight loss,irritability": "Possible hyperthyroidism.",
+        "memory loss,confusion,difficulty speaking": "Possible early signs of Alzheimer's disease.",
+        "painful urination,cloudy urine,lower back pain": "Possible urinary tract infection (UTI).",
+        "weak grip,difficulty holding objects,tremors": "Possible Parkinson's disease.",
+        "sudden vision loss,severe headache,face drooping": "Possible stroke. Seek emergency medical help!",
+        "severe ear pain,fluid discharge,hearing loss": "Possible ear infection.",
+        "swollen lymph nodes,sore throat,fever": "Possible mononucleosis or strep throat.",
+        "severe pelvic pain,heavy bleeding,irregular periods": "Possible endometriosis or fibroids.",
+        "excessive thirst,dry mouth,frequent urination": "Possible dehydration or diabetes insipidus.",
+        "muscle weakness,difficulty walking,loss of coordination": "Possible multiple sclerosis (MS).",
+        "persistent nausea,vomiting,lightheadedness": "Possible pregnancy or inner ear disorder.",
+        "chronic sinus congestion,facial pain,headache": "Possible sinusitis.",
+        "tingling in face,arm weakness,slurred speech": "Possible transient ischemic attack (mini-stroke).",
+        "painful sores on mouth or genitals,flu-like symptoms": "Possible herpes simplex virus (HSV).",
+        "difficulty breathing,swollen face,hives": "Possible severe allergic reaction (anaphylaxis).",
+        "excessive daytime sleepiness,loud snoring,irritability": "Possible sleep apnea.",
+        "sudden severe abdominal pain,nausea,vomiting": "Possible appendicitis.",
+        "persistent bloating,abdominal discomfort,changes in bowel habits": "Possible ovarian cancer.",
+        "severe lower back pain,blood in urine,fever": "Possible kidney stones.",
+        "itchy skin,yellowing of skin,dark urine": "Possible liver disease.",
+        "recurring chest pain,lightheadedness,nausea": "Possible angina or heart attack.",
+        "unexplained weight gain,fluid retention,tiredness": "Possible kidney disease.",
+        "persistent vomiting,abdominal cramps,diarrhea": "Possible food poisoning.",
+        "muscle pain,weakness,dark-colored urine": "Possible rhabdomyolysis.",
+        "severe itching,skin redness,blistering rash": "Possible shingles.",
+        "difficulty concentrating,mood swings,tiredness": "Possible chronic fatigue syndrome (CFS).",
+        "persistent cough,difficulty breathing,weight loss": "Possible lung cancer.",
+        "unusual sweating,hand tremors,rapid heartbeat": "Possible hyperthyroidism.",
+        "chronic dry cough,fatigue,swollen joints": "Possible sarcoidosis.",
+        "extreme mood changes,hallucinations,paranoia": "Possible schizophrenia or bipolar disorder.",
+        "frequent muscle cramps,numbness,tingling in hands": "Possible calcium deficiency or nerve disorder.",
+        "difficulty opening mouth,severe jaw pain,fever": "Possible tetanus.",
+        "loss of appetite,nausea,joint pain": "Possible hepatitis.",
+        "persistent diarrhea,dehydration,weight loss": "Possible cholera.",
+        "high fever,severe back pain,bleeding disorders": "Possible Ebola virus infection.",
+        "burning sensation while urinating,foul-smelling urine": "Possible UTI or bladder infection.",
+        "loss of taste and smell,fever,shortness of breath": "Possible COVID-19.",
+        "persistent vomiting,low blood pressure,confusion": "Possible adrenal insufficiency.",
+        "uncontrolled muscle movements,difficulty walking": "Possible Huntington's disease.",
+        "recurring fever,skin ulcers,swollen joints": "Possible leishmaniasis.",
+            };
+
+            let matchedDisease = "I'm not sure.";
+            let inputSymptoms = symptoms.toLowerCase().split(",").map(s => s.trim());
+
+            Object.keys(diseasePredictions).forEach(key => {
+                let diseaseSymptoms = key.split(",");
+                if (diseaseSymptoms.every(symptom => inputSymptoms.includes(symptom))) {
+                    matchedDisease = diseasePredictions[key];
+                }
+            });
+
+            analyzingMessage.remove();
+            addMessage(matchedDisease, "bot-message");
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+
+</html>
